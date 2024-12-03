@@ -1,9 +1,9 @@
 const express = require("express");
-const cors = require("cors"); // Importa o CORS
+const cors = require("cors");
 const getLivros = require("./rotas/livro");
 
 const app = express();
-app.use(cors()); // Habilita CORS para todas as rotas
+app.use(cors({origin: "*"})); 
 app.use(express.json());
 const port = 8000;
 
