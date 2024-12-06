@@ -1,44 +1,46 @@
-const { getTodosFavoritos, insereFavorito, deletaFvoritoPorId } = require("../servicos/favorito")
+const { getTodosFavoritos, deletaFavoritoPorId, insereFavorito } = require("../servicos/favorito")
 
 function getFavoritos(req, res) {
-    try{
-        const livros = getTodosFavoritos()
-        res.send(livros)
+    try {
+        const favoritos = getTodosFavoritos()
+        res.send(favoritos)
     } catch (error) {
         res.status(500)
         res.send(error.message)
-    }
+    } 
 }
 
-function postFavorito(req,res) {
-    try{
-        const id = req.parms.id 
-        insereFavorito(id)
-        res.status(201)
-        res.send("Livro inserido com sucesso")
+function postFavorito(req, res) {
+    try {
+        const idLivro = req.params.id
+        if(idLivro && Number(idLivro)) {
+            insereFavorito(idLivro)
+            res.send("Livro inserido com sucesso")
+            res.status(201)
+        } else {
+            res.status(422)
+            res.send("Id inválido")
+        }
     } catch(error) {
         res.status(500)
         res.send(error.message)
     }
-    res.send('Você fez um requisição do tipo POST')
 }
 
 function deleteFavorito(req, res) {
     try {
-        const id = req.params.id
-
-        if(id && Number(id)){
-            deletaFvoritoPorId(id)
-            res.send("Favorito deletado com sucesso")
+        const idLivro = req.params.id
+        if(idLivro && Number(idLivro)) {
+            deletaFavoritoPorId(idLivro)
+            res.send("livro deletado com sucesso")
         } else {
             res.status(422)
-            res.send("Id Invalido")
+            res.send("ID inválido")
         }
-
     } catch (error) {
         res.status(500)
         res.send(error.message)
-    }
+    } 
 }
 
 module.exports = {
